@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: avito-shop-db
+    environment:
+      POSTGRES_USER: avito
+      POSTGRES_PASSWORD: avito
+      POSTGRES_DB: avito
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "avito"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: avito-shop-app
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy  
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: avito
+      DB_PASSWORD: avito
+      DB_NAME: avito
+      JWT_SECRET: super-secret-key
