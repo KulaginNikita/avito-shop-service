@@ -17,8 +17,14 @@
 1. Клонируйте репозиторий: 
 ```
 git clone https://github.com/KulaginNikita/avito-shop-service
+cd avito-shop-service
 ```
 2. Запустите:
 ```
 docker-compose up --build
 ```
+## Тестирование:
+
+- Юнит-тесты для бизнес-логики находятся в `internal/service/service_test.go`.
+- E2E-тесты для API — в `tests/e2e_test.go`.
+
